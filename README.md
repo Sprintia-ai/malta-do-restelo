@@ -1,32 +1,53 @@
-# React + TypeScript + Vite
+# Crónicas do Almoço de Natal dos Amigos
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+Digital archive of the annual Christmas lunches of **A Malta do Restelo**, held every year since 1964.
 
-Currently, two official plugins are available:
+Built with React, Vite, TypeScript, Tailwind CSS and Framer Motion. Supabase (optional) adds member sign-in, photo uploads and RSVPs.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Run it
 
-## React Compiler
-
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the Oxlint configuration
-
-If you are developing a production application, we recommend enabling type-aware lint rules by installing `oxlint-tsgolint` and editing `.oxlintrc.json`:
-
-```json
-{
-  "$schema": "./node_modules/oxlint/configuration_schema.json",
-  "plugins": ["react", "typescript", "oxc"],
-  "options": {
-    "typeAware": true
-  },
-  "rules": {
-    "react/rules-of-hooks": "error",
-    "react/only-export-components": ["warn", { "allowConstantExport": true }]
-  }
-}
+```bash
+npm install
+npm run dev        # http://localhost:5173
+npm run build      # production build in dist/
 ```
 
-See the [Oxlint rules documentation](https://oxc.rs/docs/guide/usage/linter/rules) for the full list of rules and categories.
+The site works as a static archive with no further setup.
+
+## Edit the content
+
+All text, years, captions, members and next-lunch details live in one file:
+
+```
+src/data/timelineData.ts
+```
+
+Entries marked `TODO` are placeholders waiting for the group to confirm them:
+
+- timeline entries with `year: null` show "Ano por confirmar"
+- `members` is empty until names are added
+- `nextLunch.date` and `venue` are empty until the lunch is booked; once `date` is set, the countdown and the "Adicionar ao calendário" button appear
+
+Photos go in `src/assets/` and are referenced from the timeline entries.
+
+## Turn on member features (Supabase)
+
+1. Copy `.env.example` to `.env.local` and fill in your project URL and anon key.
+2. Run `supabase/setup.sql` once in the Supabase SQL editor. It creates the private photo bucket and the `rsvps` table, both members-only.
+3. In Supabase, turn off public sign-ups and invite members by email.
+
+All Supabase calls are in `src/lib/supabase.ts`.
+
+## Pages
+
+| Route | Page |
+| --- | --- |
+| `/` | Home: hero, timeline, next lunch, photo upload |
+| `/historico` | Every recorded lunch in order |
+| `/arquivo` | All years since 1964, filterable by decade |
+| `/fotografias` | Photo wall with full-screen viewer |
+| `/membros` | Members |
+| `/sobre` | The story of the tradition |
+| `/proximo-almoco` | Next lunch: countdown, calendar file, RSVP |
+| `/almoco/:ano` | One page per year |
+| `/auth` | Member sign-in |

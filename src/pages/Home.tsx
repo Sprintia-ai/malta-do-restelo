@@ -1,0 +1,27 @@
+import Hero from "@/components/archive/Hero";
+import PhotoStack from "@/components/archive/PhotoStack";
+import Timeline from "@/components/archive/Timeline";
+import NextLunchBanner from "@/components/archive/NextLunchBanner";
+import PhotoDropzone from "@/components/archive/PhotoDropzone";
+import { siteContent, timelineEntries } from "@/data/timelineData";
+import { useDocumentTitle } from "@/hooks/useDocumentTitle";
+
+export default function Home() {
+  useDocumentTitle(siteContent.pageTitles.home);
+
+  return (
+    <>
+      <Hero />
+      <PhotoStack />
+      <NextLunchBanner />
+      <Timeline
+        id={siteContent.timeline.anchorId}
+        entries={timelineEntries}
+        heading={siteContent.home.timelineHeading}
+        intro={siteContent.home.timelineIntro}
+        moreLink={{ to: "/historico", label: siteContent.home.timelineLink }}
+      />
+      <PhotoDropzone />
+    </>
+  );
+}
