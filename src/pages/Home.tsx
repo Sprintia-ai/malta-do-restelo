@@ -1,4 +1,5 @@
 import Hero from "@/components/archive/Hero";
+import DecadeMenu from "@/components/archive/DecadeMenu";
 import PhotoStack from "@/components/archive/PhotoStack";
 import Timeline from "@/components/archive/Timeline";
 import NextLunchBanner from "@/components/archive/NextLunchBanner";
@@ -12,6 +13,8 @@ export default function Home() {
   return (
     <>
       <Hero />
+      {/* Sticky from here to the end of the page: its parent is the page's <main> */}
+      <DecadeMenu />
       <PhotoStack />
       <NextLunchBanner />
       <Timeline

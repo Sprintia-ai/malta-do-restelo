@@ -237,6 +237,15 @@ export const siteContent = {
     photoCount: (n: number) => (n === 1 ? "1 fotografia" : `${n} fotografias`),
   },
 
+  decadeMenu: {
+    label: "Saltar para a década:",
+    navLabel: "Décadas",
+    yearRange: (decade: number) => `${decade} a ${decade + 9}`,
+    emptyDecade: "Ainda não há memórias desta década. Tem fotografias destes anos? Adicione-as ao arquivo.",
+    unknownHeading: "Ano por confirmar",
+    unknownIntro: "Almoços que sabemos que aconteceram, mas cujo ano ainda falta confirmar.",
+  },
+
   history: {
     heading: "Histórico",
     intro: "Cada almoço registado até hoje, por ordem. Os anos que ainda faltam esperam pelas vossas fotografias e histórias.",
@@ -441,6 +450,45 @@ export const getDecades = (now: Date = new Date()): number[] => {
   const decades: number[] = [];
   for (let d = decadeOf(FOUNDING_YEAR); d <= decadeOf(currentYear(now)); d += 10) decades.push(d);
   return decades;
+};
+
+export interface DecadeGroup {
+  /** Stable key, also used in the anchor id. `null` decade = year not confirmed. */
+  decade: number | null;
+  /** Anchor id the decade menu scrolls to, e.g. "decada-1960". */
+  anchorId: string;
+  label: string;
+  entries: TimelineEntry[];
+}
+
+/**
+ * Timeline entries grouped by decade, oldest first, for the decade menu and the
+ * timeline sections. Every decade from 1960 to today is included (empty ones too,
+ * so the menu is complete and predictable); entries without a year come last.
+ */
+export const getDecadeGroups = (
+  entries: TimelineEntry[] = timelineEntries,
+  now: Date = new Date(),
+): DecadeGroup[] => {
+  const groups: DecadeGroup[] = getDecades(now).map((decade) => ({
+    decade,
+    anchorId: `decada-${decade}`,
+    label: siteContent.archive.decadeLabel(decade),
+    entries: entries
+      .filter((e) => e.year !== null && decadeOf(e.year) === decade)
+      .sort((a, b) => (a.year as number) - (b.year as number)),
+  }));
+
+  const undated = entries.filter((e) => e.year === null);
+  if (undated.length > 0) {
+    groups.push({
+      decade: null,
+      anchorId: "decada-sem-ano",
+      label: siteContent.decadeMenu.unknownHeading,
+      entries: undated,
+    });
+  }
+  return groups;
 };
 
 export interface GalleryPhoto extends TimelinePhoto {
