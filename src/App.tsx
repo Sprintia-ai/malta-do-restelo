@@ -1,13 +1,12 @@
 import { Toaster } from "sonner";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Layout from "./components/archive/Layout";
 import Home from "./pages/Home";
 import About from "./pages/About";
 import Members from "./pages/Members";
 import Photos from "./pages/Photos";
 import Archive from "./pages/Archive";
-import HistoricalArchive from "./pages/HistoricalArchive";
 import NextEvent from "./pages/NextEvent";
 import Event from "./pages/Event";
 import Event2025 from "./pages/Event2025";
@@ -28,7 +27,8 @@ const App = () => (
           <Route path="/sobre" element={<About />} />
           <Route path="/membros" element={<Members />} />
           <Route path="/fotografias" element={<Photos />} />
-          <Route path="/historico" element={<HistoricalArchive />} />
+          {/* "Histórico" was merged into "Arquivo"; keep old links working */}
+          <Route path="/historico" element={<Navigate to="/arquivo" replace />} />
           <Route path="/arquivo" element={<Archive />} />
           <Route path="/auth" element={<Auth />} />
           <Route path="/proximo-almoco" element={<NextEvent />} />

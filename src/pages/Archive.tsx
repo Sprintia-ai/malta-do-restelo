@@ -136,7 +136,7 @@ export default function Archive() {
             <ul className="mt-10 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
               {undated.map((entry) => (
                 <li key={entry.id}>
-                  <Link to={`/historico#${entry.id}`} className="group block">
+                  <Link to="/arquivo" className="group block">
                     {entry.photos[0] && (
                       <span className="photo-grain relative block overflow-hidden rounded-sm border border-slate-800">
                         <img

@@ -22,7 +22,7 @@ export default function Home() {
         entries={timelineEntries}
         heading={siteContent.home.timelineHeading}
         intro={siteContent.home.timelineIntro}
-        moreLink={{ to: "/historico", label: siteContent.home.timelineLink }}
+        moreLink={{ to: "/arquivo", label: siteContent.home.timelineLink }}
       />
       <PhotoDropzone />
     </>

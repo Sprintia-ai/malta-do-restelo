@@ -2,6 +2,7 @@ import { CalendarPlus, MapPin } from "lucide-react";
 import PageHeader from "@/components/archive/PageHeader";
 import Countdown from "@/components/archive/Countdown";
 import RsvpForm from "@/components/archive/RsvpForm";
+import RestaurantSuggestions from "@/components/archive/RestaurantSuggestions";
 import { nextLunch, siteContent } from "@/data/timelineData";
 import { downloadIcs, formatLunchDate } from "@/lib/calendar";
 import { useDocumentTitle } from "@/hooks/useDocumentTitle";
@@ -86,6 +87,8 @@ export default function NextEvent() {
           <RsvpForm year={year} />
         </div>
       </section>
+
+      <RestaurantSuggestions />
     </>
   );
 }

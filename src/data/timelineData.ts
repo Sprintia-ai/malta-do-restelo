@@ -84,6 +84,19 @@ export interface NavItem {
   to: string;
 }
 
+export interface RestaurantSuggestion {
+  id: string;
+  name: string;
+  /** Neighbourhood, shown next to the name. */
+  area: string;
+  /** "Ideal para quem escolheu: …" */
+  match: string;
+  /** The reasoning paragraph. */
+  why: string;
+  /** Price band, e.g. "€€€". */
+  price: string;
+}
+
 export type UploadErrorCode =
   | "not-configured"
   | "not-authenticated"
@@ -855,6 +868,37 @@ export const nextLunch: NextLunch = {
 };
 
 /* ================================================================== */
+/* Restaurant suggestions for the next lunch (shown on Próximo Almoço) */
+/* ================================================================== */
+
+export const restaurantSuggestions: RestaurantSuggestion[] = [
+  {
+    id: "nunes",
+    name: "Nunes Real Marisqueira",
+    area: "Belém",
+    match: "Ideal para quem escolheu: Peixe e Marisco",
+    why: "A um passo das vossas raízes no Restelo. O Nunes oferece o melhor marisco da área metropolitana num ambiente recém-renovado, extremamente confortável, com cadeirões espaçosos e um serviço imaculado. Perfeito para partilhar grandes travessas e abrir bons vinhos brancos.",
+    price: "€€€€",
+  },
+  {
+    id: "solar-dos-presuntos",
+    name: "Solar dos Presuntos",
+    area: "Baixa de Lisboa",
+    match: "Ideal para quem escolheu: Carnes, Grelhados e Cozinha Tradicional",
+    why: "Uma instituição histórica lisboeta. É a escolha mais segura para um almoço de grupo longo e animado. Totalmente acessível (com elevador), cadeiras muito confortáveis e uma garrafeira incomparável para quem aprecia um grande vinho do Douro a acompanhar pratos tradicionais de tacho e forno.",
+    price: "€€€",
+  },
+  {
+    id: "pinoquio",
+    name: "Restaurante Pinóquio",
+    area: "Restauradores",
+    match: "Ideal para quem escolheu: Misto (Carne e Marisco)",
+    why: "Um clássico intemporal para a malta. Famoso pelo Pica-pau no tacho de cobre e pelas amêijoas à Bulhão Pato. O restaurante foi recentemente remodelado, oferecendo agora muito mais espaço, melhor acústica para conversas de grupo e o mesmo serviço de excelência de sempre.",
+    price: "€€€",
+  },
+];
+
+/* ================================================================== */
 /* Site copy                                                           */
 /* ================================================================== */
 
@@ -867,7 +911,6 @@ export const siteContent = {
 
   nav: [
     { label: "Início", to: "/" },
-    { label: "Histórico", to: "/historico" },
     { label: "Arquivo", to: "/arquivo" },
     { label: "Fotografias", to: "/fotografias" },
     { label: "Membros", to: "/membros" },
@@ -913,7 +956,7 @@ export const siteContent = {
     introLink: "A nossa história",
     timelineHeading: "Linha do Tempo",
     timelineIntro: "Os almoços da Malta do Restelo, um ano de cada vez.",
-    timelineLink: "Ver o histórico completo",
+    timelineLink: "Ver o arquivo completo",
   },
 
   timeline: {
@@ -1025,6 +1068,16 @@ export const siteContent = {
     calendarTitle: (year: number) => `Almoço de Natal ${year} — Malta do Restelo`,
     homeBannerHeading: (year: number) => `Almoço de Natal ${year}`,
     homeBannerLink: "Ver detalhes",
+    restaurants: {
+      heading: "Sugestões de Restaurante",
+      intro:
+        "Três sugestões para o próximo almoço, conforme o que a malta preferir comer. Escolha a sua e vote.",
+      whyLabel: "Porquê",
+      priceLabel: "Preço",
+      voteButton: "Votar neste Restaurante",
+      voted: "A sua escolha",
+      voteToast: (name: string) => `Votou em ${name}.`,
+    },
   },
 
   rsvp: {
