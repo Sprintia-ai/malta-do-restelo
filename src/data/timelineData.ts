@@ -191,6 +191,7 @@ export const siteContent = {
     openMenu: "Abrir menu",
     closeMenu: "Fechar menu",
     skipToContent: "Saltar para o conteúdo",
+    backToTop: "Voltar ao Topo",
     closeLightbox: "Fechar fotografia",
     previousPhoto: "Fotografia anterior",
     nextPhoto: "Fotografia seguinte",
