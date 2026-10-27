@@ -10,7 +10,7 @@ const copy = siteContent.nextLunchPage;
 
 export default function NextEvent() {
   useDocumentTitle(siteContent.pageTitles.nextLunch);
-  const { year, date, venue, address, mapUrl, notes } = nextLunch;
+  const { year, organizers, date, venue, address, mapUrl, notes } = nextLunch;
   const location = [venue, address].filter(Boolean).join(", ");
 
   return (
@@ -29,6 +29,13 @@ export default function NextEvent() {
 
         <div className="grid gap-12 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-16">
           <dl className="space-y-10">
+            {organizers && (
+              <div>
+                <dt className="text-sm text-slate-500">{copy.organizersLabel}</dt>
+                <dd className="mt-2 font-serif text-2xl text-slate-50">{organizers}</dd>
+              </div>
+            )}
+
             <div>
               <dt className="text-sm text-slate-500">{copy.whenLabel}</dt>
               <dd className="mt-2 font-serif text-2xl text-slate-50">{date ? formatLunchDate(date) : copy.dateTbd}</dd>

@@ -22,11 +22,12 @@ All text, years, captions, members and next-lunch details live in one file:
 src/data/timelineData.ts
 ```
 
-Entries marked `TODO` are placeholders waiting for the group to confirm them:
+The lunches (1964, 1982–2012, 2014–2019, 2022–2025) are copied word for word from the group's records: the "Almoços" summary document and the actas. Years with no lunch (2013, 2020, 2021) are listed in `noLunchYears`.
 
-- timeline entries with `year: null` show "Ano por confirmar"
+Still to fill in:
+
 - `members` is empty until names are added
-- `nextLunch.date` and `venue` are empty until the lunch is booked; once `date` is set, the countdown and the "Adicionar ao calendário" button appear
+- `nextLunch.date` and `venue` for 2026; once `date` is set, the countdown and the "Adicionar ao calendário" button appear
 
 Photos go in `src/assets/` and are referenced from the timeline entries.
 

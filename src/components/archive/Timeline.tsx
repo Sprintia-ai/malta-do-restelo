@@ -1,11 +1,13 @@
 import { Link } from "react-router-dom";
 import {
   formatEntryYear,
+  formatLunchDay,
   getDecadeGroups,
   siteContent,
   type DecadeGroup,
   type TimelineEntry,
 } from "@/data/timelineData";
+import { LunchFacts, LunchMinutes } from "./LunchFacts";
 
 /**
  * Accessible timeline, designed for readers aged 70+.
@@ -92,10 +94,10 @@ function MemoryCard({ entry, uploadHref }: { entry: TimelineEntry; uploadHref: s
         <h4 id={headingId} className={`${serif} mt-4 text-3xl font-bold leading-tight text-slate-900 sm:text-4xl`}>
           {entry.title}
         </h4>
-        {entry.venue && <p className="mt-3 text-xl text-slate-800">{entry.venue}</p>}
+        {entry.date && <p className="mt-3 text-xl text-slate-800">{formatLunchDay(entry.date)}</p>}
       </header>
 
-      {lead ? (
+      {lead && (
         <figure className="mt-8">
           <img
             src={lead.src}
@@ -106,10 +108,6 @@ function MemoryCard({ entry, uploadHref }: { entry: TimelineEntry; uploadHref: s
           />
           <figcaption className="mt-4 text-lg leading-relaxed text-slate-800">{lead.caption}</figcaption>
         </figure>
-      ) : (
-        <p className="mt-8 rounded-lg border-2 border-dashed border-slate-300 bg-stone-50 px-6 py-8 text-xl text-slate-800">
-          {copy.noPhotoYet}
-        </p>
       )}
 
       {rest.length > 0 && (
@@ -131,7 +129,14 @@ function MemoryCard({ entry, uploadHref }: { entry: TimelineEntry; uploadHref: s
         </ul>
       )}
 
-      <p className="mt-8 max-w-prose text-xl leading-relaxed text-slate-900">{entry.story ?? entry.summary}</p>
+      <div className="mt-8">
+        {entry.organizers || entry.attendees ? (
+          <LunchFacts entry={entry} tone="light" showDate={false} large />
+        ) : (
+          // Lunches recorded only through quotes (1964) show those quotes instead
+          <LunchMinutes entry={entry} tone="light" />
+        )}
+      </div>
 
       {entry.photos.length > 0 && (
         <p className="mt-4 text-lg text-slate-800">{copy.photoCount(entry.photos.length)}</p>

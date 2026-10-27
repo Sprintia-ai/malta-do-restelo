@@ -5,11 +5,14 @@ import PageHeader from "@/components/archive/PageHeader";
 import PhotoGrid from "@/components/archive/PhotoGrid";
 import PhotoDropzone from "@/components/archive/PhotoDropzone";
 import {
+  formatLunchDay,
   getAdjacentYears,
   getEntryByYear,
   isValidLunchYear,
+  noLunchYears,
   siteContent,
 } from "@/data/timelineData";
+import { LunchFacts, LunchMinutes } from "@/components/archive/LunchFacts";
 import { listPhotosForYear } from "@/lib/supabase";
 import { useSupabaseSession } from "@/hooks/useSupabaseSession";
 import { useDocumentTitle } from "@/hooks/useDocumentTitle";
@@ -51,6 +54,7 @@ function YearNav({ year }: { year: number }) {
 function LunchPage({ year }: { year: number }) {
   useDocumentTitle(siteContent.pageTitles.lunch(year));
   const entry = getEntryByYear(year);
+  const noLunchReason = noLunchYears[year];
   const { session } = useSupabaseSession();
 
   const memberPhotos = useQuery({
@@ -76,21 +80,38 @@ function LunchPage({ year }: { year: number }) {
   return (
     <>
       <PageHeader
-        title={entry?.title ?? copy.undocumentedHeading}
-        intro={entry ? (entry.story ?? entry.summary) : copy.undocumentedBody}
+        title={entry?.title ?? (noLunchReason ? copy.noLunchHeading : copy.undocumentedHeading)}
+        intro={
+          entry
+            ? entry.date
+              ? formatLunchDay(entry.date)
+              : undefined
+            : (noLunchReason ?? copy.undocumentedBody)
+        }
         aside={
           <p aria-hidden className="font-serif text-[7rem] font-semibold leading-none text-archive-emerald sm:text-[10rem]">
             {year}
           </p>
         }
-      >
-        {entry?.venue && <p className="mt-4 text-slate-300">{entry.venue}</p>}
-      </PageHeader>
+      />
+
+      {entry && (entry.organizers || entry.attendees) && (
+        <section className="mx-auto max-w-6xl px-4 pt-16 sm:px-6">
+          <LunchFacts entry={entry} showDate={false} />
+        </section>
+      )}
 
       {staticPhotos.length > 0 && (
         <section className="mx-auto max-w-6xl px-4 py-16 sm:px-6">
           <h2 className="mb-8 font-serif text-3xl font-semibold text-slate-50">{copy.photosHeading}</h2>
           <PhotoGrid photos={staticPhotos} />
+        </section>
+      )}
+
+      {entry?.minutes && (
+        <section className="mx-auto max-w-6xl px-4 py-16 sm:px-6">
+          <h2 className="mb-8 font-serif text-3xl font-semibold text-slate-50">{siteContent.lunchFacts.minutes}</h2>
+          <LunchMinutes entry={entry} />
         </section>
       )}
 

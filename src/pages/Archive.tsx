@@ -11,6 +11,7 @@ import {
   getAllYears,
   getDecades,
   getEntryByYear,
+  noLunchYears,
   siteContent,
   undatedEntries,
 } from "@/data/timelineData";
@@ -21,6 +22,19 @@ const copy = siteContent.archive;
 function YearTile({ year }: { year: number }) {
   const entry = getEntryByYear(year);
   const thumb = entry?.photos[0];
+
+  if (!entry && noLunchYears[year]) {
+    return (
+      <Link
+        to={`/almoco/${year}`}
+        className="group flex aspect-square flex-col justify-between rounded-sm border border-dashed border-slate-700 p-3 transition-colors hover:border-slate-500"
+        aria-label={`${year}: ${copy.noLunch}`}
+      >
+        <span className="font-serif text-2xl text-slate-500 line-through decoration-slate-600 sm:text-3xl">{year}</span>
+        <span className="text-xs text-slate-500">{copy.noLunch}</span>
+      </Link>
+    );
+  }
 
   if (!entry) {
     return (
@@ -137,7 +151,7 @@ export default function Archive() {
                     <span className="mt-4 block font-serif text-xl text-slate-100 transition-colors group-hover:text-archive-emerald">
                       {entry.title}
                     </span>
-                    <span className="mt-1 block text-sm text-slate-400">{entry.summary}</span>
+                    {entry.notes && <span className="mt-1 block text-sm text-slate-400">{entry.notes}</span>}
                   </Link>
                 </li>
               ))}

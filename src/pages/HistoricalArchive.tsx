@@ -5,11 +5,13 @@ import { Camera } from "lucide-react";
 import PageHeader from "@/components/archive/PageHeader";
 import {
   formatEntryYear,
+  formatLunchDay,
   siteContent,
   timelineEntries,
   type TimelineEntry,
 } from "@/data/timelineData";
 import { useDocumentTitle } from "@/hooks/useDocumentTitle";
+import { LunchFacts, LunchMinutes } from "@/components/archive/LunchFacts";
 
 const copy = siteContent.history;
 
@@ -36,8 +38,14 @@ function HistoryEntry({ entry, onActive }: { entry: TimelineEntry; onActive: (id
       </p>
 
       <h2 className="font-serif text-3xl font-semibold text-slate-50 sm:text-4xl">{entry.title}</h2>
-      {entry.venue && <p className="mt-2 text-slate-400">{entry.venue}</p>}
-      <p className="mt-5 max-w-prose text-lg leading-relaxed text-slate-300">{entry.story ?? entry.summary}</p>
+      {entry.date && <p className="mt-2 text-lg text-slate-400">{formatLunchDay(entry.date)}</p>}
+      <div className="mt-6">
+        {entry.organizers || entry.attendees ? (
+          <LunchFacts entry={entry} showDate={false} only={["organizers", "attendees", "notes"]} />
+        ) : (
+          <LunchMinutes entry={entry} />
+        )}
+      </div>
 
       {lead && (
         <figure className="mt-8">
@@ -80,9 +88,10 @@ export default function HistoricalArchive() {
 
       <div className="mx-auto grid max-w-6xl gap-12 px-4 py-20 sm:px-6 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-20">
         {/* Sticky year: the page's signature — it changes as you scroll the lunches */}
-        <aside className="hidden lg:block" aria-hidden>
+        <aside className="hidden lg:block">
           <div className="sticky top-28">
-            <div className="relative h-[11rem] overflow-hidden">
+            {/* The big year is decorative (each entry repeats it); the index below stays reachable */}
+            <div aria-hidden="true" className="relative h-[11rem] overflow-hidden">
               <AnimatePresence mode="popLayout" initial={false}>
                 <motion.p
                   key={activeLabel}
@@ -99,7 +108,10 @@ export default function HistoricalArchive() {
               </AnimatePresence>
             </div>
 
-            <nav aria-label={copy.heading} className="mt-10 border-l border-slate-800">
+            <nav
+              aria-label={copy.heading}
+              className="mt-10 max-h-[calc(100vh-22rem)] overflow-y-auto overscroll-contain border-l border-slate-800 pr-2"
+            >
               <ul>
                 {timelineEntries.map((entry) => {
                   const isActive = entry.id === activeId;
