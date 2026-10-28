@@ -271,7 +271,7 @@ export default function PhotoDropzone({
                       <div className="min-w-0 flex-1">
                         <p className="truncate text-sm text-slate-200">{item.name}</p>
                         {item.status === "error" && item.error && (
-                          <p className="text-xs text-red-400">{copy.errors[item.error]}</p>
+                          <p className="text-xs text-amber-400">{copy.errors[item.error]}</p>
                         )}
                       </div>
                       <StatusBadge status={item.status} />
@@ -290,7 +290,7 @@ export default function PhotoDropzone({
               {gallery.isLoading ? (
                 <Loader2 className="h-5 w-5 animate-spin text-archive-emerald" aria-hidden />
               ) : gallery.isError ? (
-                <p className="text-sm text-red-400">{copy.errors["list-failed"]}</p>
+                <p className="text-sm text-amber-400">{copy.errors["list-failed"]}</p>
               ) : gallery.data && gallery.data.length > 0 ? (
                 <ul className="grid grid-cols-2 gap-3 sm:grid-cols-4">
                   {gallery.data.map((photo) => (
@@ -338,7 +338,7 @@ function StatusBadge({ status }: { status: QueueStatus }) {
     );
   }
   return (
-    <span className="inline-flex items-center gap-1.5 text-xs text-red-400">
+    <span className="inline-flex items-center gap-1.5 text-xs text-amber-400">
       <XCircle className="h-4 w-4" aria-hidden />
       {copy.statusError}
     </span>

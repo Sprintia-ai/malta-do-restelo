@@ -130,7 +130,7 @@ export default function Auth() {
                 )}
 
                 {status.kind === "error" && (
-                  <p className="text-sm text-red-400" role="alert">
+                  <p className="text-sm text-amber-400" role="alert">
                     {status.message}
                   </p>
                 )}

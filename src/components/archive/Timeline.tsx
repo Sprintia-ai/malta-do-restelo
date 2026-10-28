@@ -44,7 +44,7 @@ const focusRing =
   "focus-visible:outline focus-visible:outline-4 focus-visible:outline-offset-4 focus-visible:outline-slate-900";
 
 /* Primary action: deep burgundy with white text (contrast about 10:1). */
-const primaryButton = `inline-flex items-center justify-center rounded-lg bg-[#7A1F2B] px-6 py-4 text-xl font-semibold text-white hover:bg-[#5E1621] ${focusRing}`;
+const primaryButton = `inline-flex items-center justify-center rounded-lg bg-[#047857] px-6 py-4 text-xl font-semibold text-white hover:bg-[#065F46] ${focusRing}`;
 
 /* Secondary action: white with a heavy dark border. */
 const secondaryButton = `inline-flex items-center justify-center rounded-lg border-2 border-slate-900 bg-white px-6 py-4 text-xl font-semibold text-slate-900 hover:bg-stone-100 ${focusRing}`;

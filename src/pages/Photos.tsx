@@ -102,7 +102,7 @@ export default function Photos() {
             ) : memberQuery.isLoading ? (
               <Loader2 className="mt-6 h-5 w-5 animate-spin text-archive-emerald" aria-hidden />
             ) : memberQuery.isError ? (
-              <p className="mt-4 text-red-400">{siteContent.upload.errors["list-failed"]}</p>
+              <p className="mt-4 text-amber-400">{siteContent.upload.errors["list-failed"]}</p>
             ) : (
               <div className="mt-8">
                 <PhotoGrid photos={byFilter(memberPhotos)} emptyText={copy.empty} />

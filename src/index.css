@@ -38,8 +38,8 @@
     --accent: 160 84% 39%;
     --accent-foreground: 166 91% 9%;
 
-    --destructive: 0 72% 51%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive: 38 92% 50%;
+    --destructive-foreground: 222 47% 11%;
 
     /* #1E293B slate-800 */
     --border: 217 33% 17%;
@@ -81,8 +81,8 @@
     --muted-foreground: 215 20% 65%;
     --accent: 160 84% 39%;
     --accent-foreground: 166 91% 9%;
-    --destructive: 0 72% 51%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive: 38 92% 50%;
+    --destructive-foreground: 222 47% 11%;
     --border: 217 33% 17%;
     --input: 217 33% 17%;
     --ring: 160 84% 39%;

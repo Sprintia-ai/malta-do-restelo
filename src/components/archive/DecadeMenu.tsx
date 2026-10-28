@@ -15,7 +15,7 @@ import { getDecadeGroups, siteContent } from "@/data/timelineData";
 const copy = siteContent.decadeMenu;
 
 const focusRing =
-  "focus-visible:outline focus-visible:outline-4 focus-visible:outline-offset-2 focus-visible:outline-[#7A1F2B]";
+  "focus-visible:outline focus-visible:outline-4 focus-visible:outline-offset-2 focus-visible:outline-[#047857]";
 
 /** Smoothly scrolls a decade section into view (instantly with reduced motion) and moves focus to its heading. */
 function scrollToDecade(anchorId: string) {

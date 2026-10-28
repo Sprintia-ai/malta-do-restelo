@@ -193,7 +193,7 @@ export default function RsvpForm({ year }: { year: number }) {
                 type="button"
                 onClick={() => cancel.mutate()}
                 disabled={cancel.isPending}
-                className="text-sm text-slate-400 underline underline-offset-4 transition-colors hover:text-red-400"
+                className="text-sm text-slate-400 underline underline-offset-4 transition-colors hover:text-amber-400"
               >
                 {copy.cancel}
               </button>
