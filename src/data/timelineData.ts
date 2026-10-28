@@ -1128,12 +1128,13 @@ export const siteContent = {
       intro:
         "Que dia fica melhor para a malta? Marque todas as sextas e sábados em que pode estar presente, até 23 de dezembro. A data com mais disponibilidade ganha.",
       signInPrompt: "Inicie sessão para votar na data.",
-      available: "Posso",
       selected: "Disponível ✓",
       votes: (n: number) => (n === 1 ? "1 voto" : `${n} votos`),
       leading: "Mais votada",
       empty: "Ainda ninguém votou. Seja o primeiro a marcar a sua disponibilidade.",
       error: "O voto não foi guardado. Tente outra vez.",
+      deviceNote: "As suas escolhas ficam guardadas neste dispositivo.",
+      signInToCount: "Inicie sessão para o seu voto contar para a contagem de todos.",
     },
     restaurants: {
       heading: "Sugestões de Restaurante",
