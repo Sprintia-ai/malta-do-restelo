@@ -9,19 +9,29 @@ const linkBase =
 
 export default function SiteHeader() {
   const [open, setOpen] = useState(false);
+  // Pinned to the top at all times. Transparent over the hero, solid once scrolled.
+  const [scrolled, setScrolled] = useState(() => (typeof window !== "undefined" ? window.scrollY > 8 : false));
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => e.key === "Escape" && setOpen(false);
+    const onScroll = () => setScrolled(window.scrollY > 8);
     window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => {
+      window.removeEventListener("keydown", onKey);
+      window.removeEventListener("scroll", onScroll);
+    };
   }, []);
+
+  const solid = open || scrolled;
 
   return (
     <header
-      // Not fixed: the header stays at the top of the page and scrolls away with it,
-      // so nothing slides over the content while reading.
-      className={`absolute inset-x-0 top-0 z-50 ${
-        open ? "border-b border-slate-800/80 bg-archive-night" : "border-b border-transparent bg-transparent"
+      // Fixed: the menu stays frozen at the top of the viewport while the page scrolls.
+      className={`fixed inset-x-0 top-0 z-50 transition-colors duration-300 ${
+        solid
+          ? "border-b border-slate-800/80 bg-archive-night/95 backdrop-blur-sm"
+          : "border-b border-transparent bg-transparent"
       }`}
     >
       <a

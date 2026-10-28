@@ -83,7 +83,7 @@ export default function DecadeMenu() {
     <nav
       ref={navRef}
       aria-label={copy.navLabel}
-      className="sticky top-0 z-40 border-b-2 border-slate-300 bg-stone-50 shadow-md"
+      className="sticky top-16 z-40 border-b-2 border-slate-300 bg-stone-50 shadow-md"
       style={{ paddingTop: "env(safe-area-inset-top, 0px)" }}
     >
       <div className="mx-auto max-w-7xl px-4 py-4 sm:px-6">
