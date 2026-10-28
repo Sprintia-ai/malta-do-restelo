@@ -130,6 +130,13 @@ export const HERO_IMAGE: TimelinePhoto = {
   caption: "A Malta do Restelo à mesa.",
 };
 
+/** Photo shown on the Sobre Nós page. */
+export const ABOUT_IMAGE: TimelinePhoto = {
+  src: groupCelebration,
+  alt: "Amigos à mesa, com pratos de marisco, numa sala com cortinados floridos e janela para o jardim",
+  caption: "À volta da mesma mesa.",
+};
+
 /* ================================================================== */
 /* Timeline — keep entries in chronological order                      */
 /* ================================================================== */
@@ -1130,27 +1137,17 @@ export const siteContent = {
   },
 
   about: {
-    heading: "Sobre",
-    lead: "Desde 24 de dezembro de 1964, um grupo de amigos junta-se à mesa por altura do Natal.",
-    // Resumo feito a partir das actas de 2009 a 2025
-    body: [
-      "Segundo a acta de 2009, o primeiro almoço realizou-se a 24 de dezembro de 1964, data que se fixa como o início desta organização. Em 2024 celebrou-se o 60.º aniversário do Almoço de Natal.",
-      "O Pai Gaspar é o Patrono ad eternam. Em cada almoço evoca-se o Patrono e o Trio Incomparável: Vasco, Manel e Xico. O mais velho dos convivas é o Deão.",
-      "Este site guarda essa memória: cada almoço tem o seu lugar, com o local, a data, quem esteve presente, a ementa e a acta.",
+    heading: "Sobre Nós",
+    subheading: "A Malta do Restelo",
+    intro: [
+      "Somos mais do que um grupo de amigos; somos uma família que nasceu e cresceu nas ruas do Restelo, em Lisboa. Desde os anos 60, partilhamos momentos inesquecíveis, e todos os anos, no Natal, reunimo-nos para celebrar a amizade que nos une.",
+      "Ao longo dos anos, vivemos alegrias, desafios e mudanças, mas o espírito de união permanece intacto. Cada almoço é uma oportunidade para relembrar as histórias do passado, partilhar as novidades do presente e construir memórias para o futuro.",
     ],
-    pillarsHeading: "O que nos junta",
-    pillars: [
-      { title: "A acta", body: "Cada almoço fica registado em acta, lida e aprovada no almoço seguinte." },
-      { title: "O organizador", body: "No fim de cada almoço escolhe-se, por aclamação, quem organiza o do ano seguinte." },
-      { title: "As gerações", body: "A 3.ª geração chegou à mesa em 1994 e a 4.ª em 2014." },
-    ],
-    factsHeading: "Em números",
-    facts: {
-      since: "Primeiro almoço",
-      years: "Anos de tradição",
-      documented: "Almoços documentados",
-      photos: "Fotografias no arquivo",
-    },
+    memoriamLead:
+      "Infelizmente, o tempo também nos trouxe despedidas. Perdemos amigos queridos que foram parte fundamental desta jornada:",
+    commitmentHeading: "O Nosso Compromisso",
+    commitment:
+      "Este site é um tributo à nossa história, um espaço onde guardamos as recordações dos nossos almoços anuais de Natal. Aqui, eternizamos os sorrisos, as gargalhadas e os momentos que fazem da Malta do Restelo uma família para a vida.",
   },
 
   nextLunchPage: {
