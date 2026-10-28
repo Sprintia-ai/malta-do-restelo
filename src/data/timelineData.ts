@@ -58,12 +58,21 @@ export interface TimelineEntry {
 export interface Member {
   id: string;
   name: string;
+  /** A role in the group, e.g. "Deão" (the eldest). Shown first. */
+  role?: string;
   /** How the group calls him at the table. */
   nickname?: string;
   /** First lunch attended. */
   since?: number;
   photo?: string;
   note?: string;
+}
+
+export interface InMemoriamMember {
+  id: string;
+  name: string;
+  /** A short tribute. */
+  tribute: string;
 }
 
 export interface NextLunch {
@@ -852,7 +861,38 @@ export const noLunchYears: Record<number, string> = {
 /* Example: { id: "joao", name: "João …", nickname: "…", since: 1964 }  */
 /* ================================================================== */
 
-export const members: Member[] = [];
+export const members: Member[] = [
+  { id: "manel-peres", name: "Manel Peres", role: "Deão" },
+  { id: "calocha-maia", name: "Calocha Maia" },
+  { id: "carlos-gaspar", name: "Carlos Gaspar" },
+  { id: "carlos-gaspar-ii", name: "Carlos Gaspar II" },
+  { id: "diogo-amaral", name: "Diogo Amaral" },
+  { id: "duarte-amaral", name: "Duarte Amaral" },
+  { id: "duarte-sanches", name: "Duarte Sanches" },
+  { id: "francisco-moreira", name: "Francisco Moreira" },
+  { id: "francisco-padinha-ii", name: "Francisco Padinha II" },
+  { id: "joao-sanches", name: "João Sanches" },
+  { id: "joao-vaz", name: "João Vaz" },
+  { id: "miguel-sanches", name: "Miguel Sanches" },
+  { id: "nuno-gaspar", name: "Nuno Gaspar" },
+  { id: "pedro-gaspar", name: "Pedro Gaspar" },
+  { id: "pedro-gaspar-ii", name: "Pedro Gaspar II" },
+  { id: "pedro-maia", name: "Pedro Maia" },
+  { id: "rodrigo-amaral", name: "Rodrigo Amaral" },
+  { id: "salvador-amaral", name: "Salvador Amaral" },
+  { id: "toze-maia", name: "Tozé Maia" },
+  { id: "vasco-gaspar-ii", name: "Vasco Gaspar II" },
+];
+
+/** Members no longer with us, honoured on the Membros page. */
+export const inMemoriam: InMemoriamMember[] = [
+  { id: "patrono-gaspar", name: "Patrono, Pai/Sr. Gaspar", tribute: "O patriarca que sempre nos inspirou" },
+  { id: "vasco", name: "Vasco", tribute: "Cuja alegria contagiante faz falta" },
+  { id: "manel-maia", name: "Manel Maia", tribute: "Sempre presente nos nossos corações" },
+  { id: "xico", name: "Xico", tribute: "Que nos deixou saudades eternas" },
+  { id: "ginho", name: "Ginho", tribute: "Amigo de todas as horas" },
+  { id: "ze-joao", name: "Zé João", tribute: "Cuja memória honramos a cada encontro" },
+];
 
 /* ================================================================== */
 /* Next lunch — TODO: fill in when booked                              */
@@ -1077,7 +1117,12 @@ export const siteContent = {
 
   members: {
     heading: "Membros",
-    intro: "Quem se senta à mesa.",
+    intro: "Quem se senta à mesa, e quem continua sempre connosco.",
+    turmaHeading: "A Turma",
+    turmaIntro: "Os companheiros de viagem.",
+    deaoLabel: "Deão",
+    memoriamHeading: "Em Memória",
+    memoriamIntro: "Sempre presentes nos nossos corações.",
     since: (year: number) => `À mesa desde ${year}`,
     empty:
       "A lista da Malta está a ser preparada. Em breve, cada nome terá aqui o seu lugar à mesa.",
