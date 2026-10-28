@@ -360,3 +360,59 @@ export async function deleteMyRsvp(year: number): Promise<ArchiveResult<null>> {
   if (error) return fail("rsvp-failed", error.message);
   return { ok: true, data: null };
 }
+
+/* ------------------------------------------------------------------ */
+/* Date poll — table `date_votes`, one row per member per candidate date */
+/* (see supabase/setup.sql)                                            */
+/* ------------------------------------------------------------------ */
+
+/** Candidate dates (ISO) this member has marked as available for a year. */
+export async function getMyDateVotes(year: number): Promise<ArchiveResult<string[]>> {
+  if (!supabase) return fail("not-configured");
+  const session = await getSession();
+  if (!session) return fail("not-authenticated");
+  const { data, error } = await supabase
+    .from("date_votes")
+    .select("date")
+    .eq("year", year)
+    .eq("user_id", session.user.id);
+  if (error) return fail("rsvp-failed", error.message);
+  return { ok: true, data: (data ?? []).map((r: { date: string }) => r.date) };
+}
+
+/** Vote count per candidate date for a year. */
+export async function getDateTally(year: number): Promise<ArchiveResult<Record<string, number>>> {
+  if (!supabase) return fail("not-configured");
+  const { data, error } = await supabase.from("date_votes").select("date").eq("year", year);
+  if (error) return fail("rsvp-failed", error.message);
+  const tally: Record<string, number> = {};
+  for (const r of (data ?? []) as Array<{ date: string }>) tally[r.date] = (tally[r.date] ?? 0) + 1;
+  return { ok: true, data: tally };
+}
+
+/** Add or remove this member's availability for one candidate date. */
+export async function setMyDateVote(
+  year: number,
+  date: string,
+  available: boolean,
+): Promise<ArchiveResult<null>> {
+  if (!supabase) return fail("not-configured");
+  const session = await getSession();
+  if (!session) return fail("not-authenticated");
+
+  if (available) {
+    const { error } = await supabase
+      .from("date_votes")
+      .upsert({ user_id: session.user.id, year, date }, { onConflict: "user_id,year,date" });
+    if (error) return fail("rsvp-failed", error.message);
+  } else {
+    const { error } = await supabase
+      .from("date_votes")
+      .delete()
+      .eq("user_id", session.user.id)
+      .eq("year", year)
+      .eq("date", date);
+    if (error) return fail("rsvp-failed", error.message);
+  }
+  return { ok: true, data: null };
+}

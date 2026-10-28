@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { toast } from "sonner";
 import { Check } from "lucide-react";
-import { restaurantSuggestions, siteContent } from "@/data/timelineData";
+import { restaurantSuggestions, siteContent, type RestaurantSuggestion } from "@/data/timelineData";
 
 const copy = siteContent.nextLunchPage.restaurants;
 const STORAGE_KEY = "restaurante-voto";
@@ -15,10 +15,81 @@ function readVote(): string | null {
   }
 }
 
+/** Restaurants grouped by region, keeping the order they appear in the data. */
+function byRegion(list: RestaurantSuggestion[]): Array<[string, RestaurantSuggestion[]]> {
+  const groups = new Map<string, RestaurantSuggestion[]>();
+  for (const r of list) {
+    const group = groups.get(r.region) ?? [];
+    group.push(r);
+    groups.set(r.region, group);
+  }
+  return [...groups.entries()];
+}
+
+function RestaurantCard({
+  r,
+  isVoted,
+  onVote,
+}: {
+  r: RestaurantSuggestion;
+  isVoted: boolean;
+  onVote: () => void;
+}) {
+  return (
+    <div
+      className={`flex h-full flex-col rounded-xl border-2 bg-white p-6 shadow-sm sm:p-8 ${
+        isVoted ? "border-[#10B981] ring-2 ring-[#10B981]" : "border-slate-200"
+      }`}
+    >
+      {isVoted && (
+        <p className="mb-4 inline-flex items-center gap-2 self-start rounded-full bg-[#10B981] px-4 py-1.5 text-base font-bold text-white">
+          <Check className="h-4 w-4" aria-hidden="true" />
+          {copy.voted}
+        </p>
+      )}
+
+      <h3 className="font-serif text-2xl font-bold leading-tight text-slate-900 sm:text-3xl">{r.name}</h3>
+      <p className="mt-1 text-lg text-slate-600">{r.area}</p>
+
+      <p className="mt-5 text-lg font-bold text-[#047857]">{r.match}</p>
+
+      <dl className="mt-5 space-y-4 text-lg leading-relaxed text-slate-800">
+        <div>
+          <dt className="font-bold text-slate-900">{copy.whyLabel}</dt>
+          <dd className="mt-1">{r.why}</dd>
+        </div>
+        <div>
+          <dt className="font-bold text-slate-900">{copy.priceLabel}</dt>
+          <dd className="mt-1 tracking-widest">{r.price}</dd>
+        </div>
+      </dl>
+
+      {/* Button pinned to the bottom so every card's action lines up */}
+      <button
+        type="button"
+        onClick={onVote}
+        aria-pressed={isVoted}
+        className={`mt-8 inline-flex w-full items-center justify-center gap-2 rounded-xl px-8 py-5 text-lg font-bold text-white transition-colors focus-visible:outline focus-visible:outline-4 focus-visible:outline-offset-4 focus-visible:outline-[#047857] ${
+          isVoted ? "bg-[#047857]" : "bg-[#10B981] hover:bg-[#059669]"
+        }`}
+      >
+        {isVoted ? (
+          <>
+            <Check className="h-5 w-5" aria-hidden="true" />
+            {copy.voted}
+          </>
+        ) : (
+          copy.voteButton
+        )}
+      </button>
+    </div>
+  );
+}
+
 /**
- * Three restaurant suggestions for the next lunch, each a high-contrast white
- * card with a large "Votar neste Restaurante" button. The viewer's choice is
- * kept in their own browser so it survives a reload.
+ * Restaurant suggestions for the next lunch, grouped by region (Lisboa and the
+ * Costa do Estoril / Cascais). Each is a high-contrast white card with a large
+ * "Votar neste Restaurante" button. The viewer's choice is kept in their browser.
  */
 export default function RestaurantSuggestions() {
   const [voted, setVoted] = useState<string | null>(readVote);
@@ -43,62 +114,22 @@ export default function RestaurantSuggestions() {
           <p className="mt-4 max-w-2xl text-lg leading-relaxed text-slate-700">{copy.intro}</p>
         </header>
 
-        <ul className="grid gap-6 lg:grid-cols-3">
-          {restaurantSuggestions.map((r) => {
-            const isVoted = voted === r.id;
-            return (
-              <li key={r.id} className="h-full">
-                <div
-                  className={`flex h-full flex-col rounded-xl border-2 bg-white p-6 shadow-sm sm:p-8 ${
-                    isVoted ? "border-[#10B981] ring-2 ring-[#10B981]" : "border-slate-200"
-                  }`}
-                >
-                  {isVoted && (
-                    <p className="mb-4 inline-flex items-center gap-2 self-start rounded-full bg-[#10B981] px-4 py-1.5 text-base font-bold text-white">
-                      <Check className="h-4 w-4" aria-hidden="true" />
-                      {copy.voted}
-                    </p>
-                  )}
-
-                  <h3 className="font-serif text-2xl font-bold leading-tight text-slate-900 sm:text-3xl">{r.name}</h3>
-                  <p className="mt-1 text-lg text-slate-600">{r.area}</p>
-
-                  <p className="mt-5 text-lg font-bold text-[#047857]">{r.match}</p>
-
-                  <dl className="mt-5 space-y-4 text-lg leading-relaxed text-slate-800">
-                    <div>
-                      <dt className="font-bold text-slate-900">{copy.whyLabel}</dt>
-                      <dd className="mt-1">{r.why}</dd>
-                    </div>
-                    <div>
-                      <dt className="font-bold text-slate-900">{copy.priceLabel}</dt>
-                      <dd className="mt-1 tracking-widest">{r.price}</dd>
-                    </div>
-                  </dl>
-
-                  {/* Button pinned to the bottom so all three line up */}
-                  <button
-                    type="button"
-                    onClick={() => vote(r.id, r.name)}
-                    aria-pressed={isVoted}
-                    className={`mt-8 inline-flex w-full items-center justify-center gap-2 rounded-xl px-8 py-5 text-lg font-bold text-white transition-colors focus-visible:outline focus-visible:outline-4 focus-visible:outline-offset-4 focus-visible:outline-[#047857] ${
-                      isVoted ? "bg-[#047857]" : "bg-[#10B981] hover:bg-[#059669]"
-                    }`}
-                  >
-                    {isVoted ? (
-                      <>
-                        <Check className="h-5 w-5" aria-hidden="true" />
-                        {copy.voted}
-                      </>
-                    ) : (
-                      copy.voteButton
-                    )}
-                  </button>
-                </div>
-              </li>
-            );
-          })}
-        </ul>
+        <div className="space-y-12">
+          {byRegion(restaurantSuggestions).map(([region, list]) => (
+            <div key={region}>
+              <h3 className="mb-6 border-b-2 border-slate-300 pb-3 font-serif text-2xl font-bold text-slate-900">
+                {region}
+              </h3>
+              <ul className="grid gap-6 lg:grid-cols-3">
+                {list.map((r) => (
+                  <li key={r.id} className="h-full">
+                    <RestaurantCard r={r} isVoted={voted === r.id} onVote={() => vote(r.id, r.name)} />
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </div>
       </div>
     </section>
   );

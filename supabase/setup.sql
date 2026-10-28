@@ -73,3 +73,33 @@ create policy "Members can cancel their own confirmation"
 -- 3. Accounts: disable public sign-ups in Authentication → Providers → Email
 --    and invite members from Authentication → Users → Invite.
 -- ------------------------------------------------------------------
+
+-- ------------------------------------------------------------------
+-- 4. Date poll for the next lunch (Fridays/Saturdays up to 23 December)
+-- ------------------------------------------------------------------
+
+create table if not exists public.date_votes (
+  id          uuid primary key default gen_random_uuid(),
+  user_id     uuid not null references auth.users (id) on delete cascade,
+  year        integer not null check (year >= 1964),
+  date        date not null,
+  created_at  timestamptz not null default now(),
+  unique (user_id, year, date)
+);
+
+alter table public.date_votes enable row level security;
+
+create policy "Members can see the date poll"
+  on public.date_votes for select
+  to authenticated
+  using (true);
+
+create policy "Members can add their own date availability"
+  on public.date_votes for insert
+  to authenticated
+  with check (user_id = auth.uid());
+
+create policy "Members can remove their own date availability"
+  on public.date_votes for delete
+  to authenticated
+  using (user_id = auth.uid());

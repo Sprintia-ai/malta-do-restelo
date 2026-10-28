@@ -87,6 +87,8 @@ export interface NavItem {
 export interface RestaurantSuggestion {
   id: string;
   name: string;
+  /** Grouping shown as a sub-heading, e.g. "Lisboa" or "Costa do Estoril e Cascais". */
+  region: string;
   /** Neighbourhood, shown next to the name. */
   area: string;
   /** "Ideal para quem escolheu: …" */
@@ -875,6 +877,7 @@ export const restaurantSuggestions: RestaurantSuggestion[] = [
   {
     id: "nunes",
     name: "Nunes Real Marisqueira",
+    region: "Lisboa",
     area: "Belém",
     match: "Ideal para quem escolheu: Peixe e Marisco",
     why: "A um passo das vossas raízes no Restelo. O Nunes oferece o melhor marisco da área metropolitana num ambiente recém-renovado, extremamente confortável, com cadeirões espaçosos e um serviço imaculado. Perfeito para partilhar grandes travessas e abrir bons vinhos brancos.",
@@ -883,6 +886,7 @@ export const restaurantSuggestions: RestaurantSuggestion[] = [
   {
     id: "solar-dos-presuntos",
     name: "Solar dos Presuntos",
+    region: "Lisboa",
     area: "Baixa de Lisboa",
     match: "Ideal para quem escolheu: Carnes, Grelhados e Cozinha Tradicional",
     why: "Uma instituição histórica lisboeta. É a escolha mais segura para um almoço de grupo longo e animado. Totalmente acessível (com elevador), cadeiras muito confortáveis e uma garrafeira incomparável para quem aprecia um grande vinho do Douro a acompanhar pratos tradicionais de tacho e forno.",
@@ -891,11 +895,62 @@ export const restaurantSuggestions: RestaurantSuggestion[] = [
   {
     id: "pinoquio",
     name: "Restaurante Pinóquio",
+    region: "Lisboa",
     area: "Restauradores",
     match: "Ideal para quem escolheu: Misto (Carne e Marisco)",
     why: "Um clássico intemporal para a malta. Famoso pelo Pica-pau no tacho de cobre e pelas amêijoas à Bulhão Pato. O restaurante foi recentemente remodelado, oferecendo agora muito mais espaço, melhor acústica para conversas de grupo e o mesmo serviço de excelência de sempre.",
     price: "€€€",
   },
+  {
+    id: "monte-mar-cascais",
+    name: "Monte Mar",
+    region: "Costa do Estoril e Cascais",
+    area: "Cascais (Guincho)",
+    match: "Ideal para quem escolheu: Peixe e Marisco",
+    why: "Mesmo à beira-mar, na estrada do Guincho, com vista aberta sobre o Atlântico. Uma referência da costa para peixe e marisco fresco, a poucos minutos de Cascais. Boa opção para quem prefere fazer o almoço mais perto de casa, sem ir até à cidade.",
+    price: "€€€€",
+  },
+  {
+    id: "marisco-na-praca-cascais",
+    name: "Marisco na Praça",
+    region: "Costa do Estoril e Cascais",
+    area: "Cascais — Mercado da Vila",
+    match: "Ideal para quem escolheu: Peixe e Marisco",
+    why: "No Mercado da Vila, em Cascais: escolhe-se o marisco e o peixe na banca e são preparados na hora. Ambiente informal e animado, a poucos minutos da estação de Cascais — prático para quem vem de comboio pela linha.",
+    price: "€€€",
+  },
+  {
+    id: "os-arcos-paco-de-arcos",
+    name: "Os Arcos",
+    region: "Costa do Estoril e Cascais",
+    area: "Paço de Arcos",
+    match: "Ideal para quem escolheu: Peixe e Marisco",
+    why: "Marisqueira clássica em Paço de Arcos, a meio caminho entre Lisboa e Cascais e bem servida pela linha de comboio. Casa de tradição, conhecida pelo marisco e pelo peixe fresco, cómoda para quem vem de um lado e do outro.",
+    price: "€€€",
+  },
+  {
+    id: "porto-de-santa-maria-guincho",
+    name: "Porto de Santa Maria",
+    region: "Costa do Estoril e Cascais",
+    area: "Cascais (Guincho)",
+    match: "Ideal para quem escolheu: Peixe e Marisco (ocasião especial)",
+    why: "Na estrada do Guincho, com vista para o mar, é uma das grandes casas de peixe e marisco da região, com uma garrafeira de referência. A escolha para um almoço mais cerimonioso, junto ao oceano.",
+    price: "€€€€",
+  },
+];
+
+/* ================================================================== */
+/* Date poll — the Fridays and Saturdays up to 23 December             */
+/* (for the year in `nextLunch`). ISO dates; the poll tallies votes.   */
+/* ================================================================== */
+
+export const datePollOptions: string[] = [
+  "2026-12-04",
+  "2026-12-05",
+  "2026-12-11",
+  "2026-12-12",
+  "2026-12-18",
+  "2026-12-19",
 ];
 
 /* ================================================================== */
@@ -1068,6 +1123,18 @@ export const siteContent = {
     calendarTitle: (year: number) => `Almoço de Natal ${year} — Malta do Restelo`,
     homeBannerHeading: (year: number) => `Almoço de Natal ${year}`,
     homeBannerLink: "Ver detalhes",
+    datePoll: {
+      heading: "Votação da data",
+      intro:
+        "Que dia fica melhor para a malta? Marque todas as sextas e sábados em que pode estar presente, até 23 de dezembro. A data com mais disponibilidade ganha.",
+      signInPrompt: "Inicie sessão para votar na data.",
+      available: "Posso",
+      selected: "Disponível ✓",
+      votes: (n: number) => (n === 1 ? "1 voto" : `${n} votos`),
+      leading: "Mais votada",
+      empty: "Ainda ninguém votou. Seja o primeiro a marcar a sua disponibilidade.",
+      error: "O voto não foi guardado. Tente outra vez.",
+    },
     restaurants: {
       heading: "Sugestões de Restaurante",
       intro:
@@ -1179,6 +1246,14 @@ export const currentYear = (now: Date = new Date()): number => now.getFullYear()
 export const formatLunchDay = (isoDate: string): string => {
   const [y, m, d] = isoDate.split("-").map(Number);
   return new Intl.DateTimeFormat("pt-PT", { weekday: "long", day: "numeric", month: "long", year: "numeric" }).format(
+    new Date(y, m - 1, d),
+  );
+};
+
+/** "sexta-feira, 4 de dezembro" — for the date poll (no year). */
+export const formatPollDay = (isoDate: string): string => {
+  const [y, m, d] = isoDate.split("-").map(Number);
+  return new Intl.DateTimeFormat("pt-PT", { weekday: "long", day: "numeric", month: "long" }).format(
     new Date(y, m - 1, d),
   );
 };
