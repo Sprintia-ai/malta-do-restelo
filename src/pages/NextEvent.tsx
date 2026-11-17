@@ -1,7 +1,6 @@
 import { MapPin, UtensilsCrossed } from "lucide-react";
 import PageHeader from "@/components/archive/PageHeader";
 import AvailabilityPoll from "@/components/archive/AvailabilityPoll";
-import RestaurantSuggestions from "@/components/archive/RestaurantSuggestions";
 import { nextLunch, siteContent } from "@/data/timelineData";
 import { formatLunchDate } from "@/lib/calendar";
 import { useDocumentTitle } from "@/hooks/useDocumentTitle";
@@ -65,7 +64,6 @@ export default function NextEvent() {
       </section>
 
       <AvailabilityPoll year={year} />
-      <RestaurantSuggestions />
     </>
   );
 }
