@@ -910,9 +910,9 @@ export const nextLunch: NextLunch = {
   // Acta 2025: "foi aprovada, por unanimidade e aclamação, a nomeação do Duarte Amaral para a organização do Almoço de Natal de 2026"
   organizers: "Duarte Amaral",
   date: null,
-  venue: null,
-  address: null,
-  mapUrl: null,
+  venue: "Restaurante Mandarim",
+  address: "Casino Estoril",
+  mapUrl: "https://www.google.com/maps/search/?api=1&query=Restaurante+Mandarim+Casino+Estoril",
   notes: null,
 };
 
@@ -992,12 +992,15 @@ export const restaurantSuggestions: RestaurantSuggestion[] = [
 /* ================================================================== */
 
 export const datePollOptions: string[] = [
+  "2026-11-20",
+  "2026-11-21",
+  "2026-11-27",
+  "2026-11-28",
   "2026-12-04",
   "2026-12-05",
   "2026-12-11",
   "2026-12-12",
   "2026-12-18",
-  "2026-12-19",
 ];
 
 /* ================================================================== */
@@ -1151,32 +1154,48 @@ export const siteContent = {
   },
 
   nextLunchPage: {
-    heading: (year: number) => `Almoço de Natal ${year}`,
-    dateTbd: "Data a anunciar",
-    dateTbdBody: "A data e o local ainda estão a ser combinados. Assim que estiverem marcados, aparecem aqui.",
+    heading: (year: number) => `Próximo Almoço de Natal – ${year}`,
+    dateTbd: "A combinar pela votação",
+    dateTbdBody: "O local já está escolhido. Falta só acertar o dia — ajude a decidir na votação aqui em baixo.",
     venueTbd: "Local a anunciar",
     countdownUnits: { days: "dias", hours: "horas", minutes: "minutos", seconds: "segundos" },
     happeningNow: "É hoje! Bom almoço.",
     whenLabel: "Quando",
     whereLabel: "Onde",
+    mealLabel: "Refeição",
+    meal: "Almoço",
     organizersLabel: "Organização",
     openMap: "Abrir no mapa",
     addToCalendar: "Adicionar ao calendário",
     calendarTitle: (year: number) => `Almoço de Natal ${year} — Malta do Restelo`,
     homeBannerHeading: (year: number) => `Almoço de Natal ${year}`,
     homeBannerLink: "Ver detalhes",
-    datePoll: {
+    availabilityPoll: {
       heading: "Votação da data",
       intro:
-        "Que dia fica melhor para a malta? Marque todas as sextas e sábados em que pode estar presente, até 23 de dezembro. A data com mais disponibilidade ganha.",
-      signInPrompt: "Inicie sessão para votar na data.",
-      selected: "Disponível ✓",
+        "Que dia fica melhor para a malta? Escreva o seu nome, marque todas as sextas e sábados em que pode estar presente (até 18 de dezembro) e guarde. A data com mais disponibilidade ganha.",
+      nameLabel: "O teu nome",
+      namePlaceholder: "Ex.: João Franco",
+      nameRequired: "Escreva o seu nome para guardar a disponibilidade.",
+      pickLabel: "Em que dias pode estar presente?",
+      submit: "Guardar a minha disponibilidade",
+      update: "Atualizar a minha disponibilidade",
+      remove: "Remover o meu voto",
+      saving: "A guardar…",
+      saved: (name: string) => `Disponibilidade guardada. Obrigado, ${name}!`,
+      updated: (name: string) => `Disponibilidade atualizada. Obrigado, ${name}!`,
+      removed: "O seu voto foi removido.",
+      editingNote: (name: string) => `Já há um voto em nome de ${name}. Ao guardar, substitui a escolha anterior.`,
+      error: "Não foi possível guardar. Tente outra vez.",
+      resultsHeading: "Resultados ao vivo",
       votes: (n: number) => (n === 1 ? "1 voto" : `${n} votos`),
       leading: "Mais votada",
+      voters: "Votos",
+      noVotesYet: "Sem votos ainda",
       empty: "Ainda ninguém votou. Seja o primeiro a marcar a sua disponibilidade.",
-      error: "O voto não foi guardado. Tente outra vez.",
-      deviceNote: "As suas escolhas ficam guardadas neste dispositivo.",
-      signInToCount: "Inicie sessão para o seu voto contar para a contagem de todos.",
+      deviceNote:
+        "Backend partilhado ainda não ativado: as respostas ficam guardadas apenas neste dispositivo.",
+      liveNote: "As respostas são partilhadas e atualizam-se ao vivo para toda a malta.",
     },
     restaurants: {
       heading: "Sugestões de Restaurante",

@@ -103,3 +103,52 @@ create policy "Members can remove their own date availability"
   on public.date_votes for delete
   to authenticated
   using (user_id = auth.uid());
+
+-- ------------------------------------------------------------------
+-- 5. Open date-availability poll (name-based, no sign-in)
+--    Table `almoco_votes`: one row per (person, date) they can attend.
+--    Anyone with the page can read and vote — fine for a private
+--    friends' site. See src/lib/poll.ts.
+-- ------------------------------------------------------------------
+
+create table if not exists public.almoco_votes (
+  id          uuid primary key default gen_random_uuid(),
+  year        integer not null check (year >= 1964),
+  voter_key   text not null check (char_length(voter_key) between 1 and 120),
+  voter_name  text not null check (char_length(voter_name) between 1 and 120),
+  lunch_date  date not null,
+  created_at  timestamptz not null default now(),
+  unique (year, voter_key, lunch_date)
+);
+
+alter table public.almoco_votes enable row level security;
+
+-- Open policies: anyone (anon or authenticated) can read and manage votes.
+create policy "Anyone can see the availability poll"
+  on public.almoco_votes for select
+  to anon, authenticated
+  using (true);
+
+create policy "Anyone can add availability"
+  on public.almoco_votes for insert
+  to anon, authenticated
+  with check (true);
+
+create policy "Anyone can change availability"
+  on public.almoco_votes for update
+  to anon, authenticated
+  using (true)
+  with check (true);
+
+create policy "Anyone can remove availability"
+  on public.almoco_votes for delete
+  to anon, authenticated
+  using (true);
+
+-- Live updates for the results board (Realtime). Safe to re-run.
+do $$
+begin
+  alter publication supabase_realtime add table public.almoco_votes;
+exception
+  when duplicate_object then null;
+end $$;
