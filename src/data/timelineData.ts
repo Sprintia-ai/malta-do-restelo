@@ -992,8 +992,6 @@ export const restaurantSuggestions: RestaurantSuggestion[] = [
 /* ================================================================== */
 
 export const datePollOptions: string[] = [
-  "2026-11-20",
-  "2026-11-27",
   "2026-12-04",
   "2026-12-11",
   "2026-12-18",
