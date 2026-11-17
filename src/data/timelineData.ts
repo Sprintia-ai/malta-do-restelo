@@ -993,13 +993,9 @@ export const restaurantSuggestions: RestaurantSuggestion[] = [
 
 export const datePollOptions: string[] = [
   "2026-11-20",
-  "2026-11-21",
   "2026-11-27",
-  "2026-11-28",
   "2026-12-04",
-  "2026-12-05",
   "2026-12-11",
-  "2026-12-12",
   "2026-12-18",
 ];
 
@@ -1173,7 +1169,7 @@ export const siteContent = {
     availabilityPoll: {
       heading: "Votação da data",
       intro:
-        "Que dia fica melhor para a malta? Escreva o seu nome, marque todas as sextas e sábados em que pode estar presente (até 18 de dezembro) e guarde. A data com mais disponibilidade ganha.",
+        "Que dia fica melhor para a malta? Escreva o seu nome, marque todas as sextas em que pode estar presente (até 18 de dezembro) e guarde. A data com mais disponibilidade ganha.",
       nameLabel: "O teu nome",
       namePlaceholder: "Ex.: João Franco",
       nameRequired: "Escreva o seu nome para guardar a disponibilidade.",
