@@ -15,6 +15,13 @@
 import heroChristmasDinner from "@/assets/hero-christmas-dinner.jpg";
 import groupCelebration from "@/assets/group-celebration.jpg";
 import tableSetting from "@/assets/table-setting.jpg";
+import almoco2025Grupo from "@/assets/almoco-2025-grupo.png";
+import almoco2025Brinde from "@/assets/almoco-2025-brinde.jpg";
+import almoco2025Conviva from "@/assets/almoco-2025-conviva.jpg";
+import almoco2025Mesa from "@/assets/almoco-2025-mesa.jpg";
+import almoco2025Dupla from "@/assets/almoco-2025-dupla.jpg";
+import almoco2025Solo from "@/assets/almoco-2025-solo.jpg";
+import almoco2025Heredias from "@/assets/almoco-2025-heredias.jpg";
 
 /* ================================================================== */
 /* Types                                                               */
@@ -841,11 +848,48 @@ export const timelineEntries: TimelineEntry[] = [
       "O Secretário passou, então, à apresentação do conviva-surpresa, lembrando que esta figura esteve muito em uso, em sessões antigas, sendo uma prerrogativa do organizador do almoço, da qual o Vasco, quando lhe competia, fazia quase sempre uso, e acrescentou que tivera a ideia de retomar esta prática, tendo previamente combinado com o organizador a respetiva concretização.",
       "Sobre o conviva-surpresa deste almoço, o Secretário fez a respetiva apresentação, para os (poucos) que não o conheciam, referindo que o Carlos Montepegado era da Soldados da Índia, que foram colegas na escola primária, que era, obviamente, frequentador dos Gelados, embora dedicasse muito do seu tempo ao desporto automóvel, que foram contemporâneos em Angola, durante algum tempo, e que a amizade iniciada nos bancos da escola perdurou até aos dias de hoje. O Secretário entendeu, também, lembrar que o Licas Montepegado, irmão do conviva-surpresa, fora também ele conviva-surpresa, no almoço de 2006.",
       "Seguiu-se uma troca de impressões e recordações, bem como referências do conviva-surpresa ao gosto de estar presente neste “tão simpático almoço” e de partilhar tão boas memórias, com bons e velhos amigos!",
-      "Após um agradecimento ao Duarte Amaral pela organização de mais um excelente almoço, o Secretário abriu as inscrições para a organização do Almoço de Natal de 2026; tendo havido várias intervenções no sentido de manter o Duarte como organizador, e tendo o próprio manifestado total disponibilidade e muito gosto em organizar estes almoços, foi aprovada, por unanimidade e aclamação, a nomeação do Duarte Amaral para a organização do Almoço de Natal de 2026.",
+      "Após um agradecimento ao Duarte Amaral pela organização de mais um excelente almoço, o Secretário abriu as inscrições para a organização do Almoço de Natal de 2026; embora houvesse várias intervenções no sentido de manter o Duarte como organizador, o Miguel deu a sugestão de voltarmos ao local onde se realizou o almoço de 2004, sugestão essa que colheu grande aceitação, pelo que o próprio Duarte se disponibilizou para colaborar na organização desta sugestão, se fosse caso disso, ficando assim a cargo do Miguel e do Duarte Amaral a organização do Almoço de Natal de 2026.",
+      "A pedido do Duarte Sanches, o Secretário regista em Ata o seguinte: “60 anos depois, esta tradição continua com a força de sempre. Venha o próximo!”.",
       "Nada mais havendo a tratar….",
     ],
     source: "Acta 2025",
-    photos: [],
+    photos: [
+      {
+        src: almoco2025Grupo,
+        alt: "A Malta do Restelo reunida à volta das mesas, no Restaurante Sancho, no Almoço de Natal de 2025",
+        caption: "A Malta do Restelo — Almoço de Natal de 2025, no Restaurante Sancho.",
+      },
+      {
+        src: almoco2025Brinde,
+        alt: "Um dos convivas de pé a dirigir-se à mesa, com os restantes sentados",
+        caption: "A palavra à mesa.",
+      },
+      {
+        src: almoco2025Conviva,
+        alt: "Conviva de camisola bordô, dedo no ar, com um copo de vinho tinto à frente",
+        caption: "Entre histórias e recordações.",
+      },
+      {
+        src: almoco2025Mesa,
+        alt: "Dois convivas sentados à mesa, em conversa",
+        caption: "À mesa, entre amigos.",
+      },
+      {
+        src: almoco2025Dupla,
+        alt: "Dois convivas lado a lado à mesa",
+        caption: "Lado a lado, como sempre.",
+      },
+      {
+        src: almoco2025Solo,
+        alt: "Conviva de camisola azul-clara sentado à mesa",
+        caption: "Um momento de pausa.",
+      },
+      {
+        src: almoco2025Heredias,
+        alt: "Garrafa de Herédias Douro tinto segurada junto à mesa",
+        caption: "Herédias Douro, o tinto e o branco da mesa.",
+      },
+    ],
   },
 ];
 
@@ -907,8 +951,8 @@ export const inMemoriam: InMemoriamMember[] = [
 
 export const nextLunch: NextLunch = {
   year: 2026,
-  // Acta 2025: "foi aprovada, por unanimidade e aclamação, a nomeação do Duarte Amaral para a organização do Almoço de Natal de 2026"
-  organizers: "Duarte Amaral",
+  // Acta 2025: "ficando assim a cargo do Miguel e do Duarte Amaral a organização do Almoço de Natal de 2026"
+  organizers: "Miguel e Duarte Amaral",
   date: null,
   venue: "Restaurante Mandarim",
   address: "Casino Estoril",
