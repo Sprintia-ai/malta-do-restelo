@@ -143,3 +143,99 @@ export function subscribeToVotes(year: number, onChange: () => void): () => void
     void client.removeChannel(channel);
   };
 }
+
+/* ================================================================== */
+/* Main-course choice — one dish per person                            */
+/* ================================================================== */
+
+export interface MainChoice {
+  /** Display name, exactly as the person typed it. */
+  voter: string;
+  /** Dish id (see mainCourseOptions in timelineData). */
+  dish: string;
+}
+
+const MAINS_TABLE = "almoco_mains";
+
+type LocalMains = Record<string, { name: string; dish: string }>;
+
+const mainsKey = (year: number) => `almoco-mains-${year}`;
+
+function mainsRead(year: number): LocalMains {
+  try {
+    const raw = window.localStorage.getItem(mainsKey(year));
+    return raw ? (JSON.parse(raw) as LocalMains) : {};
+  } catch {
+    return {};
+  }
+}
+
+function mainsWrite(year: number, store: LocalMains) {
+  try {
+    window.localStorage.setItem(mainsKey(year), JSON.stringify(store));
+  } catch {
+    /* ignore */
+  }
+}
+
+/** Every (name, dish) choice for a year. Throws on a backend error so react-query can retry. */
+export async function getMains(year: number): Promise<MainChoice[]> {
+  if (!supabase) {
+    return Object.values(mainsRead(year)).map((e) => ({ voter: e.name, dish: e.dish }));
+  }
+  const { data, error } = await supabase
+    .from(MAINS_TABLE)
+    .select("voter_name, dish")
+    .eq("year", year);
+  if (error) throw new Error(error.message);
+  return (data ?? []).map((r: { voter_name: string; dish: string }) => ({
+    voter: r.voter_name,
+    dish: r.dish,
+  }));
+}
+
+/** Set this person's main course (one dish). An empty dish removes the choice. */
+export async function setMain(year: number, name: string, dish: string): Promise<void> {
+  const display = name.trim();
+  const key = normalizeName(name);
+  if (!key) throw new Error("empty-name");
+
+  if (!supabase) {
+    const store = mainsRead(year);
+    if (!dish) delete store[key];
+    else store[key] = { name: display, dish };
+    mainsWrite(year, store);
+    return;
+  }
+
+  const del = await supabase.from(MAINS_TABLE).delete().eq("year", year).eq("voter_key", key);
+  if (del.error) throw new Error(del.error.message);
+  if (!dish) return;
+
+  const ins = await supabase
+    .from(MAINS_TABLE)
+    .insert({ year, voter_key: key, voter_name: display, dish });
+  if (ins.error) throw new Error(ins.error.message);
+}
+
+/** Remove this person's main-course choice. */
+export async function removeMain(year: number, name: string): Promise<void> {
+  await setMain(year, name, "");
+}
+
+/** Live updates for the main-course board. Returns an unsubscribe; no-op in local mode. */
+export function subscribeToMains(year: number, onChange: () => void): () => void {
+  const client = supabase;
+  if (!client) return () => undefined;
+  const channel = client
+    .channel(`almoco_mains_${year}`)
+    .on(
+      "postgres_changes",
+      { event: "*", schema: "public", table: MAINS_TABLE, filter: `year=eq.${year}` },
+      () => onChange(),
+    )
+    .subscribe();
+  return () => {
+    void client.removeChannel(channel);
+  };
+}

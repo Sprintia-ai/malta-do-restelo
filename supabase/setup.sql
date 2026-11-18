@@ -152,3 +152,36 @@ begin
 exception
   when duplicate_object then null;
 end $$;
+
+-- ------------------------------------------------------------------
+-- 6. Main-course choice (name-based, one dish per person)
+--    Table `almoco_mains`: who is eating what. See src/lib/poll.ts.
+-- ------------------------------------------------------------------
+
+create table if not exists public.almoco_mains (
+  id          uuid primary key default gen_random_uuid(),
+  year        integer not null check (year >= 1964),
+  voter_key   text not null check (char_length(voter_key) between 1 and 120),
+  voter_name  text not null check (char_length(voter_name) between 1 and 120),
+  dish        text not null check (char_length(dish) between 1 and 120),
+  created_at  timestamptz not null default now(),
+  unique (year, voter_key)
+);
+
+alter table public.almoco_mains enable row level security;
+
+create policy "Anyone can see the main-course poll"
+  on public.almoco_mains for select to anon, authenticated using (true);
+create policy "Anyone can add a main course"
+  on public.almoco_mains for insert to anon, authenticated with check (true);
+create policy "Anyone can change a main course"
+  on public.almoco_mains for update to anon, authenticated using (true) with check (true);
+create policy "Anyone can remove a main course"
+  on public.almoco_mains for delete to anon, authenticated using (true);
+
+do $$
+begin
+  alter publication supabase_realtime add table public.almoco_mains;
+exception
+  when duplicate_object then null;
+end $$;

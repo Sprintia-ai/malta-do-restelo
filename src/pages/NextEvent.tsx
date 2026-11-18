@@ -1,6 +1,8 @@
 import { MapPin, UtensilsCrossed } from "lucide-react";
 import PageHeader from "@/components/archive/PageHeader";
 import AvailabilityPoll from "@/components/archive/AvailabilityPoll";
+import MandarimMenu from "@/components/archive/MandarimMenu";
+import MainCoursePoll from "@/components/archive/MainCoursePoll";
 import { nextLunch, siteContent } from "@/data/timelineData";
 import { formatLunchDate } from "@/lib/calendar";
 import { useDocumentTitle } from "@/hooks/useDocumentTitle";
@@ -64,6 +66,9 @@ export default function NextEvent() {
       </section>
 
       <AvailabilityPoll year={year} />
+      <div className="pt-16" />
+      <MandarimMenu />
+      <MainCoursePoll year={year} />
     </>
   );
 }

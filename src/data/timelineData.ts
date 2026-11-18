@@ -951,8 +951,8 @@ export const inMemoriam: InMemoriamMember[] = [
 
 export const nextLunch: NextLunch = {
   year: 2026,
-  // Acta 2025: "ficando assim a cargo do Miguel e do Duarte Amaral a organização do Almoço de Natal de 2026"
-  organizers: "Miguel e Duarte Amaral",
+  // Organização do Almoço de 2026 a cargo do Miguel e do Duarte Sanches (indicação do próprio)
+  organizers: "Miguel e Duarte Sanches",
   date: null,
   venue: "Restaurante Mandarim",
   address: "Casino Estoril",
@@ -1039,6 +1039,81 @@ export const datePollOptions: string[] = [
   "2026-12-04",
   "2026-12-11",
   "2026-12-18",
+];
+
+export interface MenuItem {
+  name: string;
+  note?: string;
+}
+
+export interface MenuSection {
+  heading: string;
+  items: MenuItem[];
+}
+
+/**
+ * Ementa indicativa do Estoril Mandarim (Casino Estoril), reunida a partir de
+ * fontes públicas. Os pratos do dia serão confirmados com o restaurante.
+ */
+export const mandarimMenu: {
+  sections: MenuSection[];
+  link: { label: string; url: string };
+} = {
+  sections: [
+    {
+      heading: "Entradas & Dim Sum",
+      items: [
+        { name: "Chu-cheong-fan de camarão e espargos", note: "O dim sum emblemático da casa" },
+        { name: "Bao de porco e mel" },
+        { name: "Rolinhos primavera" },
+        { name: "Sopa de ninho de andorinha com milho doce" },
+      ],
+    },
+    {
+      heading: "Especialidades",
+      items: [
+        { name: "Pato à Pequim", note: "O ex-líbris da casa, servido em dois tempos" },
+        { name: "Gambas salteadas no wok" },
+        { name: "Vieiras salteadas" },
+      ],
+    },
+    {
+      heading: "Pratos Principais",
+      items: [
+        { name: "Galinha Kung Bao", note: "Frango salteado com amendoim e malagueta" },
+        { name: "Carne de vaca com molho de ostra" },
+        { name: "Carne de vaca fatiada com gengibre e cebolinho" },
+        { name: "Massas salteadas no wok (chow mein)" },
+        { name: "Mapo tofu", note: "Opção vegetariana" },
+      ],
+    },
+    {
+      heading: "Sobremesas",
+      items: [{ name: "Pastéis de nata chineses" }, { name: "Fruta da época" }],
+    },
+  ],
+  link: {
+    label: "Ver o Estoril Mandarim",
+    url: "https://www.timeout.pt/lisboa/pt/restaurantes/estoril-mandarim",
+  },
+};
+
+export interface MainCourse {
+  /** Stable id stored with each person's choice. */
+  id: string;
+  name: string;
+  note?: string;
+}
+
+/** The main-course options the malta can choose from for the 2026 lunch. */
+export const mainCourseOptions: MainCourse[] = [
+  { id: "pato-pequim", name: "Pato à Pequim", note: "O ex-líbris da casa, servido em dois tempos" },
+  { id: "galinha-kung-bao", name: "Galinha Kung Bao", note: "Frango salteado com amendoim e malagueta" },
+  { id: "vaca-ostra", name: "Carne de vaca com molho de ostra" },
+  { id: "vaca-gengibre", name: "Carne de vaca fatiada com gengibre e cebolinho" },
+  { id: "gambas-wok", name: "Gambas salteadas no wok" },
+  { id: "massas-wok", name: "Massas salteadas no wok (chow mein)" },
+  { id: "mapo-tofu", name: "Mapo tofu", note: "Opção vegetariana" },
 ];
 
 /* ================================================================== */
@@ -1236,6 +1311,38 @@ export const siteContent = {
       deviceNote:
         "Backend partilhado ainda não ativado: as respostas ficam guardadas apenas neste dispositivo.",
       liveNote: "As respostas são partilhadas e atualizam-se ao vivo para toda a malta.",
+    },
+    menu: {
+      heading: "A Ementa do Mandarim",
+      intro:
+        "O Estoril Mandarim, no Casino Estoril, é uma das casas de referência da cozinha chinesa em Portugal. Uma amostra do que nos espera à mesa:",
+      note: "Ementa indicativa, a partir de fontes públicas — os pratos do dia serão confirmados com o restaurante.",
+    },
+    mainPoll: {
+      heading: "Escolha do prato principal",
+      intro:
+        "Escreva o seu nome e escolha o prato principal que prefere. Assim, a organização leva a contagem certa ao restaurante.",
+      nameLabel: "O teu nome",
+      namePlaceholder: "Ex.: João Franco",
+      nameRequired: "Escreva o seu nome para guardar a escolha.",
+      pickLabel: "Qual vai ser o seu prato principal?",
+      submit: "Guardar a minha escolha",
+      update: "Atualizar a minha escolha",
+      remove: "Remover a minha escolha",
+      saving: "A guardar…",
+      saved: (name: string) => `Escolha guardada. Obrigado, ${name}!`,
+      removed: "A sua escolha foi removida.",
+      editingNote: (name: string, dish: string) =>
+        `${name} escolheu ${dish}. Ao guardar, substitui a escolha anterior.`,
+      error: "Não foi possível guardar. Tente outra vez.",
+      resultsHeading: "Escolhas da malta",
+      people: (n: number) => (n === 1 ? "1 pessoa" : `${n} pessoas`),
+      chosenBy: "Escolheram",
+      noneYet: "Sem escolhas ainda",
+      empty: "Ainda ninguém escolheu. Seja o primeiro a dizer o que quer comer.",
+      liveNote: "As escolhas são partilhadas e atualizam-se ao vivo para toda a malta.",
+      deviceNote:
+        "Backend partilhado ainda não ativado: as escolhas ficam guardadas apenas neste dispositivo.",
     },
     restaurants: {
       heading: "Sugestões de Restaurante",
