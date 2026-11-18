@@ -23,15 +23,15 @@ export default function SiteHeader() {
     };
   }, []);
 
-  const solid = open || scrolled;
-
   return (
     <header
       // Fixed: the menu stays frozen at the top of the viewport while the page scrolls.
       className={`fixed inset-x-0 top-0 z-50 transition-colors duration-300 ${
-        solid
-          ? "border-b border-slate-800/80 bg-archive-night/95 backdrop-blur-sm"
-          : "border-b border-transparent bg-transparent"
+        open
+          ? "border-b border-slate-800/80 bg-archive-night"
+          : scrolled
+            ? "border-b border-slate-800/80 bg-archive-night/95 backdrop-blur-sm"
+            : "border-b border-transparent bg-transparent"
       }`}
     >
       <a

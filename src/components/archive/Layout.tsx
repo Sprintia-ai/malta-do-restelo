@@ -48,13 +48,13 @@ function BackToTopButton() {
     <button
       type="button"
       onClick={scrollToTop}
-      className="fixed z-[90] inline-flex items-center gap-3 rounded-xl border-2 border-white bg-slate-900 px-7 py-5 text-xl font-bold text-white shadow-xl hover:bg-slate-700 focus-visible:outline focus-visible:outline-4 focus-visible:outline-offset-4 focus-visible:outline-amber-400 sm:text-2xl"
+      className="fixed z-[90] inline-flex items-center gap-2 rounded-xl border-2 border-white bg-slate-900 px-4 py-3 text-base font-bold text-white shadow-xl hover:bg-slate-700 focus-visible:outline focus-visible:outline-4 focus-visible:outline-offset-4 focus-visible:outline-amber-400 sm:gap-3 sm:px-7 sm:py-5 sm:text-2xl"
       style={{
         right: "max(1.25rem, calc(env(safe-area-inset-right, 0px) + 1rem))",
         bottom: "max(1.25rem, calc(env(safe-area-inset-bottom, 0px) + 1rem))",
       }}
     >
-      <span aria-hidden="true" className="text-2xl leading-none sm:text-3xl">
+      <span aria-hidden="true" className="text-lg leading-none sm:text-3xl">
         ↑
       </span>
       {siteContent.a11y.backToTop}
