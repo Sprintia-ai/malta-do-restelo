@@ -1044,6 +1044,8 @@ export const datePollOptions: string[] = [
 export interface MenuItem {
   name: string;
   note?: string;
+  /** Display price, e.g. "€16,00". Omitted for a shared/variable item. */
+  price?: string;
 }
 
 export interface MenuSection {
@@ -1052,8 +1054,8 @@ export interface MenuSection {
 }
 
 /**
- * Ementa indicativa do Estoril Mandarim (Casino Estoril), reunida a partir de
- * fontes públicas. Os pratos do dia serão confirmados com o restaurante.
+ * Ementa à la carte do Restaurante Mandarim (Casino Estoril), com preços
+ * da carta pública. Uma seleção representativa — a carta completa é maior.
  */
 export const mandarimMenu: {
   sections: MenuSection[];
@@ -1061,40 +1063,79 @@ export const mandarimMenu: {
 } = {
   sections: [
     {
-      heading: "Entradas & Dim Sum",
+      heading: "Dim Sum",
       items: [
-        { name: "Chu-cheong-fan de camarão e espargos", note: "O dim sum emblemático da casa" },
-        { name: "Bao de porco e mel" },
-        { name: "Rolinhos primavera" },
-        { name: "Sopa de ninho de andorinha com milho doce" },
+        { name: "Bolinhos de Porco com Caldo a Vapor", price: "€12,00" },
+        { name: "Siu Mai de Porco e Camarão com Ovas de Caranguejo", price: "€8,00" },
+        { name: "Bolinhos de Cogumelos com Trufa", price: "€9,00" },
+        { name: "Crepes com Camarão e Vegetais", price: "€8,00" },
       ],
     },
     {
-      heading: "Especialidades",
+      heading: "Entradas & Sopas",
       items: [
-        { name: "Pato à Pequim", note: "O ex-líbris da casa, servido em dois tempos" },
-        { name: "Gambas salteadas no wok" },
-        { name: "Vieiras salteadas" },
+        { name: "Gambas Fritas com Maionese de Wasabi e Amêndoas", price: "€16,00" },
+        { name: "Galinha Escalfada em Óleo de Pimenta e Molho de Soja", price: "€12,00" },
+        { name: "Sopa de Tofu com Marisco", price: "€8,00" },
+        { name: "Sopa de Milho Doce com Galinha e Abóbora", price: "€7,00" },
       ],
     },
     {
-      heading: "Pratos Principais",
+      heading: "Especialidade da Casa",
       items: [
-        { name: "Galinha Kung Bao", note: "Frango salteado com amendoim e malagueta" },
-        { name: "Carne de vaca com molho de ostra" },
-        { name: "Carne de vaca fatiada com gengibre e cebolinho" },
-        { name: "Massas salteadas no wok (chow mein)" },
-        { name: "Mapo tofu", note: "Opção vegetariana" },
+        {
+          name: "Pato à Pequim",
+          note: "Servido em dois ou três momentos",
+          price: "€75,00",
+        },
+      ],
+    },
+    {
+      heading: "Peixe & Marisco",
+      items: [
+        { name: "Robalo em Banho-Maria à Moda Chinesa", note: "Preço ao kg", price: "€75,00" },
+        { name: "Camarão Salteado com Castanha de Caju e Aipo", price: "€20,00" },
+        { name: "Vieiras Salteadas com Trufas Negras e Espargos", note: "6 un.", price: "€38,00" },
+        { name: "Gambas Agridoce", price: "€20,00" },
+      ],
+    },
+    {
+      heading: "Carnes",
+      items: [
+        { name: "Costeleta de Vaca em Molho Barbecue", price: "€32,00" },
+        { name: "Carne de Vaca Salteada com Molho de Ostras", price: "€18,00" },
+        { name: "Carne de Borrego com Cominhos e Cebolinho", price: "€18,00" },
+        { name: "Porco Agridoce", price: "€16,00" },
+      ],
+    },
+    {
+      heading: "Galinha & Pato",
+      items: [
+        { name: "Galinha Kung Bao Picante", price: "€16,00" },
+        { name: "Pato Salteado com Ananás e Gengibre em Molho Agridoce", price: "€16,00" },
+        { name: "Galinha Salteada com Castanhas em Tacho de Barro", price: "€16,00" },
+      ],
+    },
+    {
+      heading: "Arroz & Massas",
+      items: [
+        { name: "Arroz Chau-Chau à Moda Yangzhou", price: "€13,00" },
+        { name: "Arroz Chau-Chau com Marisco e Molho XO", price: "€16,00" },
+        { name: "Chau-Min Frito com Carne de Vaca e Pimenta Preta", price: "€15,00" },
       ],
     },
     {
       heading: "Sobremesas",
-      items: [{ name: "Pastéis de nata chineses" }, { name: "Fruta da época" }],
+      items: [
+        { name: "Leite Frito", price: "€6,00" },
+        { name: "Pudim de Manga", price: "€6,00" },
+        { name: "Tapioca com Manga", price: "€8,00" },
+      ],
     },
   ],
   link: {
-    label: "Ver o Estoril Mandarim",
-    url: "https://www.timeout.pt/lisboa/pt/restaurantes/estoril-mandarim",
+    label: "Ver a carta completa",
+    url: "https://www.airmenu.com/restmandarim?locale=pt",
   },
 };
 
@@ -1103,17 +1144,21 @@ export interface MainCourse {
   id: string;
   name: string;
   note?: string;
+  /** Display price, e.g. "€16,00". */
+  price?: string;
 }
 
 /** The main-course options the malta can choose from for the 2026 lunch. */
 export const mainCourseOptions: MainCourse[] = [
-  { id: "pato-pequim", name: "Pato à Pequim", note: "O ex-líbris da casa, servido em dois tempos" },
-  { id: "galinha-kung-bao", name: "Galinha Kung Bao", note: "Frango salteado com amendoim e malagueta" },
-  { id: "vaca-ostra", name: "Carne de vaca com molho de ostra" },
-  { id: "vaca-gengibre", name: "Carne de vaca fatiada com gengibre e cebolinho" },
-  { id: "gambas-wok", name: "Gambas salteadas no wok" },
-  { id: "massas-wok", name: "Massas salteadas no wok (chow mein)" },
-  { id: "mapo-tofu", name: "Mapo tofu", note: "Opção vegetariana" },
+  { id: "galinha-kung-bao", name: "Galinha Kung Bao Picante", price: "€16,00" },
+  { id: "pato-ananas", name: "Pato Salteado com Ananás e Gengibre em Molho Agridoce", price: "€16,00" },
+  { id: "vaca-ostra", name: "Carne de Vaca Salteada com Molho de Ostras", price: "€18,00" },
+  { id: "vaca-pimenta", name: "Carne de Vaca com Molho de Pimenta Preta e Cogumelos", price: "€20,00" },
+  { id: "borrego-cominhos", name: "Carne de Borrego com Cominhos e Cebolinho", price: "€18,00" },
+  { id: "camarao-caju", name: "Camarão Salteado com Castanha de Caju e Aipo", price: "€20,00" },
+  { id: "gambas-agridoce", name: "Gambas Agridoce", price: "€20,00" },
+  { id: "porco-agridoce", name: "Porco Agridoce", price: "€16,00" },
+  { id: "tofu-szechuan", name: "Tao-fu Picante à Szechuan", note: "Opção vegetariana", price: "€13,00" },
 ];
 
 /* ================================================================== */
@@ -1316,7 +1361,7 @@ export const siteContent = {
       heading: "A Ementa do Mandarim",
       intro:
         "O Estoril Mandarim, no Casino Estoril, é uma das casas de referência da cozinha chinesa em Portugal. Uma amostra do que nos espera à mesa:",
-      note: "Ementa indicativa, a partir de fontes públicas — os pratos do dia serão confirmados com o restaurante.",
+      note: "Preços da carta à la carte do restaurante. Seleção representativa — a carta completa é maior e os pratos do dia serão confirmados com o restaurante.",
     },
     mainPoll: {
       heading: "Escolha do prato principal",

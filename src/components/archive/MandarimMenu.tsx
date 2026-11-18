@@ -25,7 +25,14 @@ export default function MandarimMenu() {
               <ul className="mt-4 space-y-3">
                 {section.items.map((item) => (
                   <li key={item.name} className="border-b border-slate-800/60 pb-3">
-                    <p className="font-serif text-lg text-slate-100">{item.name}</p>
+                    <div className="flex items-baseline justify-between gap-4">
+                      <p className="font-serif text-lg text-slate-100">{item.name}</p>
+                      {item.price && (
+                        <span className="shrink-0 font-serif text-base tabular-nums text-archive-emerald">
+                          {item.price}
+                        </span>
+                      )}
+                    </div>
                     {item.note && <p className="mt-0.5 text-sm italic text-slate-500">{item.note}</p>}
                   </li>
                 ))}

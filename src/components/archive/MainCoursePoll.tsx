@@ -176,10 +176,15 @@ export default function MainCoursePoll({ year }: { year: number }) {
                       >
                         {chosen && <Check className="h-4 w-4" />}
                       </span>
-                      <span className="min-w-0">
+                      <span className="min-w-0 flex-1">
                         <span className="block font-serif text-lg text-slate-50">{dish.name}</span>
                         {dish.note && <span className="block text-sm text-slate-500">{dish.note}</span>}
                       </span>
+                      {dish.price && (
+                        <span className="shrink-0 self-start font-serif text-base tabular-nums text-archive-emerald">
+                          {dish.price}
+                        </span>
+                      )}
                     </button>
                   </li>
                 );
