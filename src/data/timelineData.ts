@@ -1169,6 +1169,8 @@ export const siteContent = {
     turmaHeading: "A Turma",
     turmaIntro: "Os companheiros de viagem.",
     deaoLabel: "Deão",
+    deaoNote: "O mais velho dos convivas, à cabeceira da mesa.",
+    atTable: (n: number) => `${n} à mesa`,
     memoriamHeading: "Em Memória",
     memoriamIntro: "Sempre presentes nos nossos corações.",
     since: (year: number) => `À mesa desde ${year}`,

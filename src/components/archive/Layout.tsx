@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useLocation, useOutlet } from "react-router-dom";
-import { AnimatePresence, MotionConfig, motion } from "framer-motion";
+import { MotionConfig, motion } from "framer-motion";
 import { siteContent } from "@/data/timelineData";
 import SiteHeader from "./SiteHeader";
 import SiteFooter from "./SiteFooter";
@@ -67,14 +67,19 @@ export default function Layout() {
   const location = useLocation();
   const outlet = useOutlet();
 
-  // After a route change, jump to the #hash target if there is one
+  // On every route change, start the new page at the top — unless the link points
+  // to an in-page #hash, in which case scroll to that element instead. Without this,
+  // the browser keeps the previous scroll position and the new page can open on
+  // empty space below its content (the "I have to refresh to see it" problem).
   useEffect(() => {
-    if (!location.hash) return;
-    const id = decodeURIComponent(location.hash.slice(1));
-    const t = window.setTimeout(() => {
-      document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" });
-    }, 350);
-    return () => window.clearTimeout(t);
+    if (location.hash) {
+      const id = decodeURIComponent(location.hash.slice(1));
+      const t = window.setTimeout(() => {
+        document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" });
+      }, 300);
+      return () => window.clearTimeout(t);
+    }
+    window.scrollTo(0, 0);
   }, [location.pathname, location.hash]);
 
   return (
@@ -82,27 +87,20 @@ export default function Layout() {
     <MotionConfig reducedMotion="user">
       <div className="flex min-h-screen flex-col bg-archive-night text-slate-100">
         <SiteHeader />
-        <AnimatePresence
-          mode="wait"
-          initial={false}
-          onExitComplete={() => {
-            if (!window.location.hash) window.scrollTo({ top: 0 });
-          }}
+        {/* Keyed by path: each route mounts fresh and fades in. No exit animation,
+            so a navigation never leaves the incoming page stuck invisible. */}
+        <motion.main
+          key={location.pathname}
+          id="conteudo"
+          // Focus target for the skip link and the "Voltar ao Topo" button
+          tabIndex={-1}
+          className="flex-1 focus:outline-none"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.25, ease: "easeOut" }}
         >
-          <motion.main
-            key={location.pathname}
-            id="conteudo"
-            // Focus target for the skip link and the "Voltar ao Topo" button
-            tabIndex={-1}
-            className="flex-1 focus:outline-none"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.25, ease: "easeOut" }}
-          >
-            {outlet}
-          </motion.main>
-        </AnimatePresence>
+          {outlet}
+        </motion.main>
         <SiteFooter />
         {/* Room under the footer so the fixed button never covers its last links */}
         <div aria-hidden="true" className="h-28 shrink-0" />
